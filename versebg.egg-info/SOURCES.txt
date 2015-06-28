@@ -1,0 +1,9 @@
+run_versebg
+setup.py
+versebg/__init__.py
+versebg/verse.py
+versebg.egg-info/PKG-INFO
+versebg.egg-info/SOURCES.txt
+versebg.egg-info/dependency_links.txt
+versebg.egg-info/requires.txt
+versebg.egg-info/top_level.txt
