@@ -5,5 +5,7 @@ INSTALL
 
 say a small prayer
 
-run ```python
-python setup.py install ```
+run 
+```python
+python setup.py install 
+```
