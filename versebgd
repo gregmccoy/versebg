@@ -1,0 +1,25 @@
+#!/usr/bin/python
+from versebg import verse
+import schedule
+import time
+import os
+import shutil
+from os.path import expanduser
+
+def setup():
+	home = expanduser("~")
+	if not os.path.exists(home + "/.versebg"):
+		os.mkdir(home + "/.versebg")
+		os.mkdir(home + "/.versebg/scripts")
+		os.mkdir(home + "/.versebg/font")
+		shutil.copyfile("data/versebg.conf", home + "/.versebg/versebg.conf")
+		shutil.copyfile("data/default.png", home + "/.versebg/default.png")
+		shutil.copyfile("data/feh", home + "/.versebg/scripts/feh")
+		shutil.copyfile("data/DejaVuSans.ttf", home + "/.versebg/font/DejaVuSans.ttf")
+
+setup()
+verse.update()
+schedule.every().day.at("23:00").do(verse.update)
+while True:
+	schedule.run_pending()
+	time.sleep(60)

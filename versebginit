@@ -1,0 +1,8 @@
+[Unit]
+Description=Map Caps to Escape in Console
+
+[Service]
+ExecStart=/usr/bin/versebgd
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,5 @@
-run_versebg
 setup.py
+versebgd
 versebg/__init__.py
 versebg/verse.py
 versebg.egg-info/PKG-INFO

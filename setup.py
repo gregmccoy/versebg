@@ -7,7 +7,7 @@ setup(
     url = "https://github.com/gmccoy42/versebg",
     version = '0.1dev',
     packages=['versebg'],
-    scripts=['run_versebg'],
+    scripts=['versebgd'],
     data_files=[('/etc/versebg/', ['data/versebg.conf']),
 	    ('bitmaps', ['data/default.png']), 
 	    ('scripts', ['data/feh']),

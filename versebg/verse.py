@@ -5,12 +5,23 @@ import configparser
 import subprocess
 import schedule
 import time
+import os
+from os.path import expanduser
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
 
+"""
+Author - Greg McCoy
 
+Date - June 28th 2015
+
+Description - pulls verse from bible gateway RSS feed.
+Uses PIL to apply text to an image. Draws varaibles from
+the conf file.
+"""
 config = configparser.ConfigParser()
+home = expanduser("~")
 
 def getVerse():
 	rssVerse = "https://www.biblegateway.com/votd/get/?format=atom"
@@ -24,8 +35,8 @@ def getVerse():
 def writeImage(quote):
 	quote = textwrap.fill(quote, 50)
 	text = quote.split('\n')
-	f = Image.open(readConf('input_image'))
-	font = ImageFont.truetype(readConf('font'),int(readConf('font_size')))#needs to use conf
+	f = Image.open(home + "/.versebg/" + readConf('input_image'))
+	font = ImageFont.truetype(home + "/.versebg/" + readConf('font'),int(readConf('font_size')))#needs to use conf
 	draw = ImageDraw.Draw(f)
 	(width, height) = f.size
 	width = width / 2
@@ -40,10 +51,11 @@ def writeImage(quote):
 	f.close();
 
 def readConf(option):
-	config.read("versebg.conf")
+	
+	config.read(home + "/.versebg/versebg.conf")
 	value = config['DEFAULT'][option] 
 	return(value)
 
 def update():
 	writeImage(getVerse())
-	subprocess.call(['./scripts/' + readConf('exec')])
+	subprocess.call([home + "/.versebg/" + readConf('exec')])
