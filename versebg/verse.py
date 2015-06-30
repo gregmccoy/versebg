@@ -30,6 +30,7 @@ def getVerse():
 		title = item["title"]
 		verse = item["summary"].replace("&ldquo;", "\"")
 		verse = verse.replace("&rdquo;", "\"")
+		verse = verse.replace("&#8212;", "—")
 		return(verse + "\n" + title)
 
 def writeImage(quote):
@@ -49,13 +50,16 @@ def writeImage(quote):
 	
 	f.save(readConf('output_url'))
 	f.close();
+	os.chmod(readConf('output_url'), 0o777)
 
 def readConf(option):
-	
 	config.read(home + "/.versebg/versebg.conf")
 	value = config['DEFAULT'][option] 
 	return(value)
 
 def update():
 	writeImage(getVerse())
-	subprocess.call([home + "/.versebg/" + readConf('exec')])
+	cmd = "sh " + home + "/.versebg/" + readConf('exec')
+	os.system(cmd)
+	print(cmd)
+	

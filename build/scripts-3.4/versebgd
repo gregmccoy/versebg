@@ -2,10 +2,22 @@
 from versebg import verse
 import schedule
 import time
-import os
+import os, sys
 import shutil
 from os.path import expanduser
+from datetime import datetime
 
+"""
+Author - Greg McCoy
+
+Date - June 28th 2015
+
+Description - start script for versebg, checks if .versebg 
+directory exists and if it doesn't makes one and copies the 
+data files over to it. It then start the script on a schedule
+to reload every day
+
+"""
 def setup():
 	home = expanduser("~")
 	if not os.path.exists(home + "/.versebg"):
@@ -19,7 +31,7 @@ def setup():
 
 setup()
 verse.update()
-schedule.every().day.at("23:00").do(verse.update)
+schedule.every().day.at("01:00").do(verse.update)
 while True:
 	schedule.run_pending()
 	time.sleep(60)
