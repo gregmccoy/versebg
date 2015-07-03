@@ -1,5 +1,5 @@
 [Unit]
-Description=Map Caps to Escape in Console
+Description=Verse of the day background generator
 
 [Service]
 ExecStart=/usr/bin/versebgd

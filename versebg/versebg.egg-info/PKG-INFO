@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: versebg
-Version: 0.1.1
+Version: 0.1.dev0
 Summary: UNKNOWN
 Home-page: https://github.com/gmccoy42/versebg
 Author: Greg McCoy
@@ -11,22 +11,10 @@ Description: # versebg
         
         INSTALL
         
-        Say a small prayer
-         
+        say a small prayer
+        
+        run 
         ```python
         python setup.py install 
         ```
-        
-        Using Systemd
-        
-        '''
-        systemctl start versebg
-        
-        systemctl enable versebg
-        '''
-        
-        dependencies
-        
-        - crontab 
-        - feh (unless you want to set up something else)
 Platform: UNKNOWN

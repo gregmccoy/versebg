@@ -4,9 +4,11 @@ import schedule
 import time
 import os, sys
 import shutil
+import site
 from os.path import expanduser
 from datetime import datetime
 
+version = "/versebg-0.1.1-py3.4.egg/" #This is horrible
 """
 Author - Greg McCoy
 
@@ -20,18 +22,19 @@ to reload every day
 """
 def setup():
 	home = expanduser("~")
+	location = site.getsitepackages()[0] + version
 	if not os.path.exists(home + "/.versebg"):
 		os.mkdir(home + "/.versebg")
 		os.mkdir(home + "/.versebg/scripts")
 		os.mkdir(home + "/.versebg/font")
-		shutil.copyfile("data/versebg.conf", home + "/.versebg/versebg.conf")
-		shutil.copyfile("data/default.png", home + "/.versebg/default.png")
-		shutil.copyfile("data/feh", home + "/.versebg/scripts/feh")
-		shutil.copyfile("data/DejaVuSans.ttf", home + "/.versebg/font/DejaVuSans.ttf")
+		shutil.copyfile(location + "data/versebg.conf", home + "/.versebg/versebg.conf")
+		shutil.copyfile(location +"data/default.png", home + "/.versebg/default.png")
+		shutil.copyfile(location +"data/feh.sh", home + "/.versebg/scripts/feh.sh")
+		shutil.copyfile(location +"data/DejaVuSans.ttf", home + "/.versebg/font/DejaVuSans.ttf")
+		with open("/var/spool/cron/root", "a") as myfile:
+		    myfile.write("30 01 * * * env DISPLAY=:0.0 /root/.versebg/scripts/feh.sh")
+
+
 
 setup()
 verse.update()
-schedule.every().day.at("01:00").do(verse.update)
-while True:
-	schedule.run_pending()
-	time.sleep(60)

@@ -23,20 +23,40 @@ the conf file.
 config = configparser.ConfigParser()
 home = expanduser("~")
 
+def parseHTML(line):
+	line = line.replace("&quot;", "\"")
+	line = line.replace("&apos;", "'")
+	line = line.replace("&amp;", "&")
+	line = line.replace("&lt;", "<")
+	line = line.replace("&gt;", ">")
+	line = line.replace("&laquo;", "<<")
+	line = line.replace("&raquo;", ">>")
+	line = line.replace("&#039;", "'")
+	line = line.replace("&#8220;", "\"")
+	line = line.replace("&#8221;", "\"")
+	line = line.replace("&#8216;", "\'")
+	line = line.replace("&#8217;", "\'")
+	line = line.replace("&#9632;", "")
+	line = line.replace("&#8226;", "-")
+	line = line.replace("&ldquo;", "")
+	line = line.replace("&rdquo;", "")
+	return(line)
+
 def getVerse():
 	rssVerse = "https://www.biblegateway.com/votd/get/?format=atom"
 	feed = feedparser.parse( rssVerse )
 	for item in feed["entries"]:
-		title = item["title"]
-		verse = item["summary"].replace("&ldquo;", "\"")
-		verse = verse.replace("&rdquo;", "\"")
-		verse = verse.replace("&#8212;", "—")
-		return(verse + "\n" + title)
+		title = "\n" + item["title"]
+		verse = item["summary"]
+	
+		return(verse + title)
 
 def writeImage(quote):
+	quote = parseHTML(quote)
 	quote = textwrap.fill(quote, 50)
 	text = quote.split('\n')
-	f = Image.open(home + "/.versebg/" + readConf('input_image'))
+	print(quote)
+	f = Image.open(readConf('input_image'))
 	font = ImageFont.truetype(home + "/.versebg/" + readConf('font'),int(readConf('font_size')))#needs to use conf
 	draw = ImageDraw.Draw(f)
 	(width, height) = f.size
@@ -54,12 +74,14 @@ def writeImage(quote):
 
 def readConf(option):
 	config.read(home + "/.versebg/versebg.conf")
-	value = config['DEFAULT'][option] 
+	value = config['DEFAULT'][option]
+	value = value.replace("~", home) 
 	return(value)
 
 def update():
 	writeImage(getVerse())
-	cmd = "sh " + home + "/.versebg/" + readConf('exec')
-	os.system(cmd)
-	print(cmd)
+	#Now uses crontab
+	#cmd = "sh " + home + "/.versebg/" + readConf('exec')
+	#os.system(cmd)
+	#print(cmd)
 	
