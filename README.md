@@ -11,11 +11,11 @@ python setup.py install
 
 Using Systemd
 
-'''
-systemctl start versebg
+```
 
+systemctl start versebg
 systemctl enable versebg
-'''
+```
 
 dependencies
 
