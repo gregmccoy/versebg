@@ -10,7 +10,7 @@ from os.path import expanduser
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
-
+from datetime import datetime
 """
 Author - Greg McCoy
 
@@ -49,7 +49,7 @@ def getVerse():
 		title = "\n" + item["title"]
 		verse = item["summary"]
 	
-		return(verse + title)
+		return(verse + " - " + title)
 
 def writeImage(quote):
 	quote = parseHTML(quote)
@@ -57,9 +57,10 @@ def writeImage(quote):
 	text = quote.split('\n')
 	print(quote)
 	f = Image.open(readConf('input_image'))
-	font = ImageFont.truetype(home + "/.versebg/" + readConf('font'),int(readConf('font_size')))#needs to use conf
+	font = ImageFont.truetype(home + "/.versebg/" + readConf('font'),int(readConf('font_size')))
 	draw = ImageDraw.Draw(f)
 	(width, height) = f.size
+	#Needs to be based on amount of new lines
 	width = width / 2
 	height = height / 2 + 50
 	for s in reversed(text):

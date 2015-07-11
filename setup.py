@@ -5,7 +5,7 @@ setup(
     author = "Greg McCoy",
     author_email = "gmccoy4242@gmail.com",
     url = "https://github.com/gmccoy42/versebg",
-    version = '0.1.1',
+    version = '0.1.2',
     packages=['versebg'],
     scripts=['versebgd'],
     data_files=[('data', ['data/versebg.conf']),

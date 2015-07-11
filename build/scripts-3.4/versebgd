@@ -7,6 +7,7 @@ import shutil
 import site
 from os.path import expanduser
 from datetime import datetime
+from systemd import journal
 
 version = "/versebg-0.1.1-py3.4.egg/" #This is horrible
 """
@@ -32,9 +33,16 @@ def setup():
 		shutil.copyfile(location +"data/feh.sh", home + "/.versebg/scripts/feh.sh")
 		shutil.copyfile(location +"data/DejaVuSans.ttf", home + "/.versebg/font/DejaVuSans.ttf")
 		with open("/var/spool/cron/root", "a") as myfile:
-		    myfile.write("30 01 * * * env DISPLAY=:0.0 /root/.versebg/scripts/feh.sh")
+		    myfile.write("\n30 01 * * * env DISPLAY=:0.0 /root/.versebg/scripts/feh.sh")
 
 
+def run():
+	journal.send("Running at " +  time.strftime('%l:%M%p %Z on %b %d, %Y'))
+	verse.update()
 
 setup()
-verse.update()
+run()
+schedule.every().day.at("01:00").do(run)
+while True:
+    schedule.run_pending()
+    time.sleep(60)
