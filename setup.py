@@ -12,7 +12,7 @@ setup(
 	    ('data', ['data/default.png']), 
 	    ('data', ['data/feh.sh']),
 	    ('data', ['data/DejaVuSans.ttf']),
-        ('usr/lib/systemd/system', ['data/versebg.service'])],
+        ('/usr/lib/systemd/system', ['data/versebg.service'])],
     include_package_data=True,
     license='Open Source!',
     long_description=open('README.md').read(),
