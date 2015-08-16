@@ -1,3 +1,5 @@
 feedparser
 pillow
 schedule
+python-systemd
+configparser

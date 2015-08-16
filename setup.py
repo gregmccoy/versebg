@@ -17,5 +17,5 @@ setup(
     license='Open Source!',
     long_description=open('README.md').read(),
 
-    install_requires = ['feedparser', 'pillow', 'schedule']
+    install_requires = ['feedparser', 'pillow', 'schedule', 'python-systemd', 'configparser']
     )
