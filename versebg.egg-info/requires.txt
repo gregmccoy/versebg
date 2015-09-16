@@ -1,5 +1,5 @@
 feedparser
 pillow
-schedule
+apscheduler >=2.1.2, <=2.1.2
 python-systemd
 configparser

@@ -1,14 +1,15 @@
 #!/usr/bin/python2
 from versebg import verse
-import schedule
 import time
 import os, sys
 import shutil
 import site
 from os.path import expanduser
 from datetime import datetime
+from apscheduler.scheduler import Scheduler
 
-version = "/versebg-0.1.2-py3.4.egg/" #This is horrible
+version = "/versebg-0.1.2-py2.7.egg/" #This is horrible
+
 """
 Author - Greg McCoy
 
@@ -20,28 +21,15 @@ data files over to it. It then start the script on a schedule
 to reload every day
 
 """
-def setup():
-	home = expanduser("~")
-	location = site.getsitepackages()[0] + version
-	if not os.path.exists(home + "/.versebg"):
-		os.mkdir(home + "/.versebg")
-		os.mkdir(home + "/.versebg/scripts")
-		os.mkdir(home + "/.versebg/font")
-		shutil.copyfile(location + "data/versebg.conf", home + "/.versebg/versebg.conf")
-		shutil.copyfile(location +"data/default.png", home + "/.versebg/default.png")
-		shutil.copyfile(location +"data/feh.sh", home + "/.versebg/scripts/feh.sh")
-		shutil.copyfile(location +"data/DejaVuSans.ttf", home + "/.versebg/font/DejaVuSans.ttf")
-		with open("/var/spool/cron/root", "a") as myfile:
-		    myfile.write("\n30 01 * * * env DISPLAY=:0.0 /root/.versebg/scripts/feh.sh")
 
+# Start the scheduler
+sched = Scheduler()
+sched.daemonic = False
+sched.start()
 
 def run():
 	#journal.send("Running at " +  time.strftime('%l:%M%p %Z on %b %d, %Y'))
 	verse.update()
 
-setup()
 run()
-schedule.every().day.at("01:00").do(run)
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+sched.add_cron_job(run, hour="1")

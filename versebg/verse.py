@@ -3,7 +3,6 @@ import textwrap
 import PIL
 import configparser
 import subprocess
-import schedule
 import time
 import os
 from os.path import expanduser
@@ -24,22 +23,28 @@ config = configparser.ConfigParser()
 home = expanduser("~")
 
 def parseHTML(line):
-	line = line.replace("&quot;", "\"")
-	line = line.replace("&apos;", "'")
-	line = line.replace("&amp;", "&")
-	line = line.replace("&lt;", "<")
-	line = line.replace("&gt;", ">")
-	line = line.replace("&laquo;", "<<")
-	line = line.replace("&raquo;", ">>")
-	line = line.replace("&#039;", "'")
-	line = line.replace("&#8220;", "\"")
-	line = line.replace("&#8221;", "\"")
-	line = line.replace("&#8216;", "\'")
-	line = line.replace("&#8217;", "\'")
-	line = line.replace("&#9632;", "")
-	line = line.replace("&#8226;", "-")
-	line = line.replace("&ldquo;", "")
-	line = line.replace("&rdquo;", "")
+	try:
+		line = line.decode('utf-8')
+		line = line.replace("&quot;", "\"")
+		line = line.replace("&apos;", "'")
+		line = line.replace("&amp;", "&")
+		line = line.replace("&lt;", "<")
+		line = line.replace("&gt;", ">")
+		line = line.replace("&laquo;", "<<")
+		line = line.replace("&raquo;", ">>")
+		line = line.replace("&#039;", "'")
+		line = line.replace("&#8220;", "\"")
+		line = line.replace("&#8221;", "\"")
+		line = line.replace("&#8216;", "\'")
+		line = line.replace("&#8217;", "\'")
+		line = line.replace("&#9632;", "")
+		line = line.replace("&#8226;", "-")
+		line = line.replace("&ldquo;", "")
+		line = line.replace("&rdquo;", "")
+		line = line.replace("&#8212;", "—")
+	except Exception as e:
+		print("Exception - " + str(e))
+	
 	return(line)
 
 def getVerse():
@@ -82,7 +87,7 @@ def readConf(option):
 def update():
 	writeImage(getVerse())
 	#Now uses crontab
-	#cmd = "sh " + home + "/.versebg/" + readConf('exec')
-	#os.system(cmd)
+	cmd = "sh " + home + "/.versebg/" + readConf('exec')
+	os.system(cmd)
 	#print(cmd)
 	
