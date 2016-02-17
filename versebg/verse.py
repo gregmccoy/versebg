@@ -41,10 +41,9 @@ def parseHTML(line):
 		line = line.replace("&#8226;", "-")
 		line = line.replace("&ldquo;", "")
 		line = line.replace("&rdquo;", "")
-		line = line.replace("&#8212;", "—")
+		line = line.replace("&#8212;", "-")
 	except Exception as e:
 		print("Exception - " + str(e))
-	
 	return(line)
 
 def getVerse():
@@ -53,7 +52,6 @@ def getVerse():
 	for item in feed["entries"]:
 		title = "\n" + item["title"]
 		verse = item["summary"]
-	
 		return(verse + " - " + title)
 
 def writeImage(quote):
@@ -73,7 +71,6 @@ def writeImage(quote):
 		height = height - 60
 	draw = ImageDraw.Draw(f)
 	draw = ImageDraw.Draw(f)
-	
 	f.save(readConf('output_url'))
 	f.close();
 	os.chmod(readConf('output_url'), 0o777)
@@ -81,7 +78,7 @@ def writeImage(quote):
 def readConf(option):
 	config.read(home + "/.versebg/versebg.conf")
 	value = config['DEFAULT'][option]
-	value = value.replace("~", home) 
+	value = value.replace("~", home)
 	return(value)
 
 def update():
@@ -90,4 +87,3 @@ def update():
 	cmd = "sh " + home + "/.versebg/" + readConf('exec')
 	os.system(cmd)
 	#print(cmd)
-	
