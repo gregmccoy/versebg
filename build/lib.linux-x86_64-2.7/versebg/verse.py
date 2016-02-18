@@ -70,8 +70,9 @@ def writeImage(quote):
 		draw.text((width - 500, height),s,(int(readConf('red')),int(readConf('green')),int(readConf('blue'))),font=font)
 		height = height - 60
 	draw = ImageDraw.Draw(f)
+	draw = ImageDraw.Draw(f)
 	f.save(readConf('output_url'))
-	f.close()
+	f.close();
 	os.chmod(readConf('output_url'), 0o777)
 
 def readConf(option):
