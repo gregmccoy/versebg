@@ -5,6 +5,7 @@ import html
 import re
 import requests
 import shutil
+import argparse
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
@@ -17,6 +18,9 @@ Description - pulls verse from bible gateway RSS feed.
 Uses PIL to apply text to an image.
 """
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-o", dest='output', help="Location to save image")
+args = parser.parse_args()
 
 def dailyPhoto():
     path = "http://www.gfa.ca/dailyphoto/"
@@ -39,7 +43,7 @@ def getVerse():
         verse = item["summary"]
         return(verse + " - " + title)
 
-def writeImage(quote):
+def writeImage(quote, output):
     quote = html.unescape(quote)
     quote = textwrap.fill(quote, 50)
     text = quote.split('\n')
@@ -61,10 +65,16 @@ def writeImage(quote):
         draw.text((width - 500, height),s, (255, 255, 255), font=font)
         height = height - 60
     draw = ImageDraw.Draw(f)
-    f.save('verse_background.png')
+    f.save(output)
     f.close()
 
-def update():
-	writeImage(getVerse())
+def update(args):
+    if args.output:
+        if args.output[:1] != "/":
+            args.output += "/"
+        output = args.output + "verse_background.png"
+    else:
+        output = "verse_background.png"
+    writeImage(getVerse(), output)
 
-update()
+update(args)
