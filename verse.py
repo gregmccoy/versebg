@@ -1,4 +1,3 @@
-import feedparser
 import textwrap
 import PIL
 import html
@@ -36,12 +35,15 @@ def dailyPhoto():
                 f.write(block)
 
 def getVerse():
-    rssVerse = "https://www.biblegateway.com/votd/get/?format=atom"
-    feed = feedparser.parse( rssVerse )
-    for item in feed["entries"]:
-        title = "\n" + item["title"]
-        verse = item["summary"]
-        return(verse + " - " + title)
+    response= requests.get("https://www.biblegateway.com/votd/get/")
+    verse = response.text.split("text>")[1]
+    verse = verse.replace("<![CDATA[", "")
+    verse = verse.replace("]]></", "")
+
+    title = response.text.split("reference>")[1]
+    title = title.replace("<![CDATA[", "")
+    title = title.replace("]]></", "")
+    return(verse + " - " + title)
 
 def writeImage(quote, output):
     quote = html.unescape(quote)
