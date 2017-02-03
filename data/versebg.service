@@ -1,8 +1,0 @@
-[Unit]
-Description=Verse of the day background generator
-
-[Service]
-ExecStart=/usr/bin/versebgd
-
-[Install]
-WantedBy=multi-user.target
